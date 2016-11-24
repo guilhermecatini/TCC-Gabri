@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Simulador Arduino</title>
+	<link rel="stylesheet" type="text/css" href="./_lib/third/bootstrap/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container-fluid" style="margin-top: 30px;">
+	<div class="row">
+		
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<label for="porta">Porta</label>
+			<input type="text" name="porta" id="porta" class="form-control" value="1" required="required">
+		</div>
+
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<label for="id">ID do Cartão</label>
+			<input type="text" name="id" id="id" class="form-control" value="21201191197" required="required">
+		</div>
+
+
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<hr>
+			<button id="btnConsultar" type="button" class="btn btn-primary">Consultar</button> |
+			<button id="btnAbrirFiltroRelatorio" type="button" class="btn btn-primary">Gerar Relatório de Acessos</button>
+		</div>
+
+
+		<div class="modal fade" tabindex="-1" role="dialog" id="mdlAcessoConcedido">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title">Acesso Concedido</h4>
+		      </div>
+		      <div class="modal-body">
+		        <p id="texto"></p>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+		<div class="modal fade" tabindex="-1" role="dialog" id="mdlAcessoNegado">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" style="color:red;">Acesso Negado</h4>
+		      </div>
+		      <div class="modal-body">
+		        <p id="texto"></p>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+		<div class="modal fade" tabindex="-1" role="dialog" id="mdlFiltro">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" ">Filtro de Relatório</h4>
+		      </div>
+		      <div class="modal-body">
+			      <div class="row">
+				      <div class="col-md-12">
+						  <label>Nome</label>
+						  <input type="text" name="fil_nome" id="fil_nome" class="form-control">
+					  </div>
+					  <div class="col-md-12">
+						  <label>ID do Cartão</label>
+						  <input type="text" name="fil_id_cartao" id="fil_id_cartao" class="form-control">
+					  </div>
+					  <div class="col-md-12">
+					  		<hr>
+						  <button id="btnRelatorio" type="button" class="btn-primary btn btn-block">Gerar Relatório</button>
+					  </div>
+			      </div>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+
+
+	</div>
+</div>
+
+
+<script type="text/javascript" src="./_lib/third/jQuery.min.js"></script>
+<script type="text/javascript" src="./_lib/third/bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+
+'use strict';
+
+// funcao para limpar os campos de tela
+function LimparCampos() {
+	$("#porta").val("");
+	$("#id").val("");
+}
+
+function GravarLogAcesso(idcartao, codporta)
+{
+	$.get('../index.php?insertDadosBanco={"porta":"'+codporta+'", "id":"'+idcartao+'"}', function(retorno) {
+		if(retorno.erro == true)
+		{
+			alert("ATENÇÃO, FALHA AO INSERIR O LOG NO BANCO DE DADOS!")
+		}
+	});
+}
+
+
+$(document).ready(function(e) {
+
+	// Evento quando a animação de fechar do modal for concluida
+	$("#mdlAcessoConcedido").on("hidden.bs.modal", function(e){
+		LimparCampos();
+	});
+
+	$("#mdlAcessoNegado").on("hidden.bs.modal", function(e){
+		LimparCampos();
+	});
+
+	// botao abrir filtro relatorio
+	$("#btnAbrirFiltroRelatorio").click(function(){
+		$("#mdlFiltro").modal("show");
+	});
+
+	// botao gerar relatorio
+	$("#btnRelatorio").click(function(){
+
+		var fnome = $("#fil_nome").val();
+		var fid_cartao = $("#fil_id_cartao").val();
+		var filtro = '';
+
+		if (fnome.length > 0) {
+			filtro += '&nome_func=' + fnome;
+		}
+
+		if (fid_cartao.length > 0) {
+			filtro += '&id=' + fid_cartao;
+		}
+		
+		$.get('../index.php?GravarArquivo=true'+filtro+'', function(retorno) {
+			if (retorno.erro == false)
+			{
+				window.open("http://" + retorno.link_acesso);
+			}
+			else
+			{
+				alert("Falha ao gerar o relatório");
+			}
+		});
+		
+	});
+
+	// Evento click do botão Consultar
+	$("#btnConsultar").click(function(){
+
+		var porta = $("#porta").val();
+		var id = $("#id").val();
+
+		// 21201191197
+		// 1
+
+		$.get('../index.php?getDadosCartao={"porta":"'+porta+'", "id":"'+id+'"}', function(retorno) {
+			var acesso = retorno.acesso;
+			if (acesso == true) {
+				$("#mdlAcessoConcedido").modal("show");
+				$("#mdlAcessoConcedido #texto").text("Bem vindo " + retorno.nome_func);
+				GravarLogAcesso(id, porta);
+			}
+			else
+			{
+				$("#mdlAcessoNegado").modal("show");
+				$("#mdlAcessoNegado #texto").text("Seu acesso não foi autorizado.");
+			}
+		});
+
+	});
+})
+
+	
+</script>
+</body>
+</html>
