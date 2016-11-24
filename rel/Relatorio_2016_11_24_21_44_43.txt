@@ -1,0 +1,13 @@
+Relatório de Acessos
+----------------------------------------------------------------------------------------------------------------------------------------
+Código Cartão | ID Cartão            | Cod Func | Nome Func                     | Código Porta | Descr Porta    | Data        | Hora    
+----------------------------------------------------------------------------------------------------------------------------------------
+            1            21201191197          1   Gabriela Pilot                             1   Escritório Tes   2016-09-25   12:40:42   
+            1            21201191197          1   Gabriela Pilot                             1   Escritório Tes   2016-09-25   12:41:19   
+            1            21201191197          1   Gabriela Pilot                             1   Escritório Tes   2016-11-21   23:11:16   
+            1            21201191197          1   Gabriela Pilot                             1   Escritório Tes   2016-11-21   23:11:59   
+            1            21201191197          1   Gabriela Pilot                             1   Escritório Tes   2016-11-22   12:58:41   
+            1            21201191197          1   Gabriela Pilot                             1   Escritório Tes   2016-11-22   13:01:35   
+            1            21201191197          1   Gabriela Pilot                             1   Escritório Tes   2016-11-22   13:03:18   
+            1            21201191197          1   Gabriela Pilot                             1   Escritório Tes   2016-11-24   14:36:46   
+            1            21201191197          1   Gabriela Pilot                             1   Escritório Tes   2016-11-24   21:38:31   

@@ -22,7 +22,7 @@ Class WS
 	// Construtor da classe
 	public function __construct()
 	{
-		$this->host = "172.16.2.15";
+		$this->host = "192.168.25.126";
 		$this->port = "3306";
 		$this->user = "root";
 		$this->pass = "1234";
@@ -211,11 +211,22 @@ Class WS
 					$f_nome_func = str_replace(" ","%", $filtro['nome_func']);
 					$var_where .= " AND lower(funcionarios.nome_func) LIKE '%".$f_nome_func."%' ";
 				}
-				else if (isset($filtro['id']))
+
+				if (isset($filtro['id']))
 				{
 					$f_id_cartao = $filtro['id'];
 					$var_where .= " AND cartao.id = '".$f_id_cartao."' ";
 				}
+
+				// @@GABRIELA
+				if ( isset($filtro['data_menor']) && isset($filtro['data_maior']) )
+				{
+					$f_dt_menor = $filtro['data_menor'];
+					$f_dt_maior = $filtro['data_maior'];
+					$var_where .= " AND ctl_acesso.data >= '".$f_dt_menor."' AND ctl_acesso.data <= '".$f_dt_maior."' ";
+
+				}
+				// @@FIM
 			}
 
 			

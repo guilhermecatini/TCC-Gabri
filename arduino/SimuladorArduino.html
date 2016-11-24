@@ -3,6 +3,7 @@
 <head>
 	<title>Simulador Arduino</title>
 	<link rel="stylesheet" type="text/css" href="./_lib/third/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="./_lib/third/jquery-ui/jquery-ui.min.css">
 </head>
 <body>
 
@@ -78,6 +79,20 @@
 						  <label>ID do Cartão</label>
 						  <input type="text" name="fil_id_cartao" id="fil_id_cartao" class="form-control">
 					  </div>
+					  <!-- @@GABRIELA -->
+					  <div class="col-md-12">
+						  <div class="row">
+						  	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						  		<label>Data Menor</label>
+								  <input type="date" name="fil_data_menor" id="fil_data_menor" class="form-control">
+							 </div>
+							 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						  		<label>Data Maior</label>
+								  <input type="date" name="fil_data_maior" id="fil_data_maior" class="form-control">
+							 </div>
+						  </div>
+					  </div>
+					  <!-- FIM -->
 					  <div class="col-md-12">
 					  		<hr>
 						  <button id="btnRelatorio" type="button" class="btn-primary btn btn-block">Gerar Relatório</button>
@@ -99,6 +114,7 @@
 
 <script type="text/javascript" src="./_lib/third/jQuery.min.js"></script>
 <script type="text/javascript" src="./_lib/third/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./_lib/third/jquery-ui/jquery-ui.min.js"></script>
 
 <script type="text/javascript">
 
@@ -123,6 +139,12 @@ function GravarLogAcesso(idcartao, codporta)
 
 $(document).ready(function(e) {
 
+	// ADICIONA O CALENDARIO
+	// @@GABRIELA
+	$("#fil_data_menor").datepicker({ dateFormat: 'yy-mm-dd' });
+	$("#fil_data_maior").datepicker({ dateFormat: 'yy-mm-dd' });
+	// @@FIM
+
 	// Evento quando a animação de fechar do modal for concluida
 	$("#mdlAcessoConcedido").on("hidden.bs.modal", function(e){
 		LimparCampos();
@@ -140,6 +162,11 @@ $(document).ready(function(e) {
 	// botao gerar relatorio
 	$("#btnRelatorio").click(function(){
 
+		// @@GABRIELA
+		var fdata_menor = $("#fil_data_menor").val();
+		var fdata_maior = $("#fil_data_maior").val();
+		// @@FIM
+
 		var fnome = $("#fil_nome").val();
 		var fid_cartao = $("#fil_id_cartao").val();
 		var filtro = '';
@@ -151,6 +178,12 @@ $(document).ready(function(e) {
 		if (fid_cartao.length > 0) {
 			filtro += '&id=' + fid_cartao;
 		}
+
+		// @@GABRIELA
+		if (fdata_menor.length > 0 && fdata_maior.length > 0) {
+			filtro += '&data_menor=' + fdata_menor + '&data_maior=' + fdata_maior;
+		}
+		// @@FIM
 		
 		$.get('../index.php?GravarArquivo=true'+filtro+'', function(retorno) {
 			if (retorno.erro == false)
