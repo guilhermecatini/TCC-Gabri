@@ -22,10 +22,10 @@ Class WS
 	// Construtor da classe
 	public function __construct()
 	{
-		$this->host = "localhost";
+		$this->host = "192.168.25.126";
 		$this->port = "3306";
 		$this->user = "root";
-		$this->pass = "";
+		$this->pass = "1234";
 		$this->dbname = "projetotcc";
 
 		$this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->dbname, $this->user, $this->pass);
