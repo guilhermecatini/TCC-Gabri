@@ -1,0 +1,27 @@
+Relatório de Acessos
+----------------------------------------------------------------------------------------------------------------------------------------
+Código Cartão | ID Cartão            | Cod Func | Nome Func                     | Código Porta | Descr Porta    | Data        | Hora    
+----------------------------------------------------------------------------------------------------------------------------------------
+            1            21201191197          1   Gabriela Pilot                             1   Escrit?rio Test   2016-11-05   15:44:56   
+            1            21201191197          1   Gabriela Pilot                             1   Escrit?rio Test   2016-11-05   15:47:27   
+            1            21201191197          1   Gabriela Pilot                             1   Escrit?rio Test   2016-11-05   15:52:42   
+            1            21201191197          1   Gabriela Pilot                             1   Escrit?rio Test   2016-11-05   15:52:45   
+            1            21201191197          1   Gabriela Pilot                             1   Escrit?rio Test   2016-11-05   15:52:46   
+            1            21201191197          1   Gabriela Pilot                             1   Escrit?rio Test   2016-11-05   15:52:49   
+            2           215168255148          2   Jorge da Silva Ramos                       1   Escrit?rio Test   2016-11-05   16:42:59   
+            3            87230247148          3   Maria Dita Brochask                        1   Escrit?rio Test   2016-11-05   16:43:28   
+            1            21201191197          1   Gabriela Pilot                             1   Escrit?rio Test   2016-11-05   16:45:49   
+            1            21201191197          1   Gabriela Pilot                             1   Escrit?rio Test   2016-11-05   16:46:14   
+            1            21201191197          1   Gabriela Pilot                             1   Escrit?rio Test   2016-11-08   17:44:05   
+            1            21201191197          1   Gabriela Pilot                             1   Escrit?rio Test   2016-11-10   21:21:20   
+            1            21201191197          1   Gabriela Pilot                             1   Escrit?rio Test   2016-11-17   18:50:43   
+            1            21201191197          1   Gabriela Pilot                             1   Escrit?rio Test   2016-11-18   18:38:06   
+            2           215168255148          2   Jorge da Silva Ramos                       1   Escrit?rio Test   2016-11-18   18:39:17   
+            4            36193102167          4   Antonio Dos Santos                         1   Escrit?rio Test   2016-11-18   18:39:43   
+            1            21201191197          1   Gabriela Pilot                             1   Escrit?rio Test   2016-11-24   18:39:10   
+            1            21201191197          1   Gabriela Pilot                             1   Escrit?rio Test   2016-11-26   16:38:23   
+            1            21201191197          1   Gabriela Pilot                             1   Escrit?rio Test   2016-12-01   17:47:23   
+            1            21201191197          1   Gabriela Pilot                             1   Escrit?rio Test   2016-12-01   17:51:41   
+            1            21201191197          1   Gabriela Pilot                             1   Escrit?rio Test   2016-12-01   20:36:58   
+            1            21201191197          1   Gabriela Pilot                             1   Escrit?rio Test   2016-12-01   20:39:46   
+            1            21201191197          1   Gabriela Pilot                             1   Escrit?rio Test   2016-12-01   20:41:52   

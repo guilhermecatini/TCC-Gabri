@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
 <head>
 	<title>Simulador Arduino</title>
@@ -12,12 +13,12 @@
 		
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<label for="porta">Porta</label>
-			<input type="text" name="porta" id="porta" class="form-control" value="1" required="required">
+			<input type="text" name="porta" id="porta" class="form-control" value="" required="required">
 		</div>
 
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<label for="id">ID do Cartão</label>
-			<input type="text" name="id" id="id" class="form-control" value="21201191197" required="required">
+			<input type="text" name="id" id="id" class="form-control" value="" required="required">
 		</div>
 
 
@@ -79,7 +80,6 @@
 						  <label>ID do Cartão</label>
 						  <input type="text" name="fil_id_cartao" id="fil_id_cartao" class="form-control">
 					  </div>
-					  <!-- @@GABRIELA -->
 					  <div class="col-md-12">
 						  <div class="row">
 						  	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -92,7 +92,6 @@
 							 </div>
 						  </div>
 					  </div>
-					  <!-- FIM -->
 					  <div class="col-md-12">
 					  		<hr>
 						  <button id="btnRelatorio" type="button" class="btn-primary btn btn-block">Gerar Relatório</button>
@@ -125,6 +124,13 @@ function LimparCampos() {
 	$("#porta").val("");
 	$("#id").val("");
 }
+ //funcao para limpar os campos da tela de relatório
+function LimparCamposRel() {
+	$("#fil_nome").val("");
+	$("#fil_id_cartao").val("");
+	$("#fil_data_menor").val("yy-mm-dd");
+	$("#fil_data_maior").val("yy-mm-dd");
+}
 
 function GravarLogAcesso(idcartao, codporta)
 {
@@ -136,15 +142,12 @@ function GravarLogAcesso(idcartao, codporta)
 	});
 }
 
-
 $(document).ready(function(e) {
 
 	// ADICIONA O CALENDARIO
-	// @@GABRIELA
 	$("#fil_data_menor").datepicker({ dateFormat: 'yy-mm-dd' });
 	$("#fil_data_maior").datepicker({ dateFormat: 'yy-mm-dd' });
-	// @@FIM
-
+	
 	// Evento quando a animação de fechar do modal for concluida
 	$("#mdlAcessoConcedido").on("hidden.bs.modal", function(e){
 		LimparCampos();
@@ -162,11 +165,8 @@ $(document).ready(function(e) {
 	// botao gerar relatorio
 	$("#btnRelatorio").click(function(){
 
-		// @@GABRIELA
 		var fdata_menor = $("#fil_data_menor").val();
 		var fdata_maior = $("#fil_data_maior").val();
-		// @@FIM
-
 		var fnome = $("#fil_nome").val();
 		var fid_cartao = $("#fil_id_cartao").val();
 		var filtro = '';
@@ -179,23 +179,22 @@ $(document).ready(function(e) {
 			filtro += '&id=' + fid_cartao;
 		}
 
-		// @@GABRIELA
 		if (fdata_menor.length > 0 && fdata_maior.length > 0) {
 			filtro += '&data_menor=' + fdata_menor + '&data_maior=' + fdata_maior;
 		}
-		// @@FIM
 		
 		$.get('../index.php?GravarArquivo=true'+filtro+'', function(retorno) {
+			
 			if (retorno.erro == false)
 			{
 				window.open("http://" + retorno.link_acesso);
 			}
 			else
 			{
-				alert("Falha ao gerar o relatório");
+				alert("Nenhum registro encontrado");
 			}
+			LimparCamposRel();
 		});
-		
 	});
 
 	// Evento click do botão Consultar
@@ -207,23 +206,26 @@ $(document).ready(function(e) {
 		// 21201191197
 		// 1
 
-		$.get('../index.php?getDadosCartao={"porta":"'+porta+'", "id":"'+id+'"}', function(retorno) {
-			var acesso = retorno.acesso;
-			if (acesso == true) {
-				$("#mdlAcessoConcedido").modal("show");
-				$("#mdlAcessoConcedido #texto").text("Bem vindo " + retorno.nome_func);
-				GravarLogAcesso(id, porta);
-			}
-			else
-			{
-				$("#mdlAcessoNegado").modal("show");
-				$("#mdlAcessoNegado #texto").text("Seu acesso não foi autorizado.");
-			}
-		});
-
+		if(porta != '' && id != ''){
+			$.get('../index.php?getDadosCartao={"porta":"'+porta+'", "id":"'+id+'"}', function(retorno) {
+				var acesso = retorno.acesso;
+				if (acesso == true) {
+					$("#mdlAcessoConcedido").modal("show");
+					$("#mdlAcessoConcedido #texto").text("Bem vindo " + retorno.nome_func);
+					GravarLogAcesso(id, porta);
+				}
+				else
+				{
+					$("#mdlAcessoNegado").modal("show");
+					$("#mdlAcessoNegado #texto").text("Seu acesso não foi autorizado.");
+				}
+			});
+		}else{
+			alert("Atenção\nDigite as informações corretamente");
+			LimparCampos();
+		}	
 	});
 })
-
 	
 </script>
 </body>

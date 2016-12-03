@@ -52,13 +52,13 @@ else if (filter_input(INPUT_GET, 'GravarArquivo'))
 		$filtro['id'] = filter_input(INPUT_GET, 'id');
 	}
 
-	// @@GABRIELA
 	if ( filter_input(INPUT_GET, 'data_menor') && filter_input(INPUT_GET, 'data_maior') )
 	{
 		$filtro['data_menor'] = filter_input(INPUT_GET, 'data_menor');
 		$filtro['data_maior'] = filter_input(INPUT_GET, 'data_maior');
 	}
-	// @@ FIM
+	
+	
 
 	echo $classe->GravarArquivo($filtro);
 }

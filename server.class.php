@@ -22,13 +22,15 @@ Class WS
 	// Construtor da classe
 	public function __construct()
 	{
-		$this->host = "192.168.25.126";
+		$this->host = "localhost";
 		$this->port = "3306";
 		$this->user = "root";
-		$this->pass = "1234";
+		$this->pass = "";
 		$this->dbname = "projetotcc";
 
 		$this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->dbname, $this->user, $this->pass);
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$this->conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 	}
 
 	// Método que traz as informações a partir do ID do cartão.
@@ -43,7 +45,6 @@ Class WS
 	{
 		// Testo todo o comando abaixo
 		try {
-
 
 			// Preparo a query que vou utilizar
 			$query = "
@@ -92,10 +93,10 @@ Class WS
 				return '{"acesso":false}';
 			}
 
-
-		} catch (PDOException $ex) // em caso de erro, lanço uma excessão, onde retorna erro = true
+		// em caso de erro, lanço uma excessão, onde retorna erro = true
+		} catch (PDOException $ex) 
 		{
-			return '{ "erro":"true" }'; // Sempre procurar trabalhar com padrões JSON... depois dar uma lida em http://www.json.org/
+			return '{ "erro":"true" }';
 		}
 	}
 
@@ -210,7 +211,7 @@ Class WS
 				{
 					$f_nome_func = str_replace(" ","%", $filtro['nome_func']);
 					$var_where .= " AND lower(funcionarios.nome_func) LIKE '%".$f_nome_func."%' ";
-				}
+				} 
 
 				if (isset($filtro['id']))
 				{
@@ -218,18 +219,13 @@ Class WS
 					$var_where .= " AND cartao.id = '".$f_id_cartao."' ";
 				}
 
-				// @@GABRIELA
 				if ( isset($filtro['data_menor']) && isset($filtro['data_maior']) )
 				{
 					$f_dt_menor = $filtro['data_menor'];
 					$f_dt_maior = $filtro['data_maior'];
 					$var_where .= " AND ctl_acesso.data >= '".$f_dt_menor."' AND ctl_acesso.data <= '".$f_dt_maior."' ";
-
 				}
-				// @@FIM
 			}
-
-			
 
 			$query = "  SELECT ctl_acesso.cod_cartao,
 						       cartao.id,
@@ -262,6 +258,10 @@ Class WS
 
 			$stmt = $this->conn->prepare($query);
 			$stmt->execute();
+			
+			if($stmt->rowCount() == 0){
+				return '{"erro":true}';
+			} else {
 
 			$text = "Relatório de Acessos" . chr(13) . chr(10);
 
@@ -282,7 +282,6 @@ Class WS
 				$data = str_pad($ln['data'], '10', ' ', STR_PAD_LEFT) . '   ';
 				$hora = str_pad($ln['hora'], '8', ' ', STR_PAD_LEFT) . '   ';
 
-
 				$text .= $cod_cartao;
 				$text .= $id_cartao;
 				$text .= $cod_func;
@@ -294,7 +293,6 @@ Class WS
 
 				$text .= chr(13) . chr(10);
 			}
-
 
 			$filedir = $_SERVER['DOCUMENT_ROOT'] . '/TCC/rel/';
 			$filename = "Relatorio_" . date('Y') . '_' . date('m') . '_' . date('d') . '_' . date('H') . '_' . date('i') . '_' . date('s') . '.txt';
@@ -310,13 +308,11 @@ Class WS
 			fclose($fp);
 
 			return $this->indent_json('{"erro":false, "link_acesso":"'.$link.'"}');
-
+			}
 		} catch (PDOException $e) {
 			return '{"erro":true}';
 		}
 	}
-	
-		
 }
 
 ?>
