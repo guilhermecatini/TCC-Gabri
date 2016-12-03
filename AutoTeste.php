@@ -2,7 +2,7 @@
 	// PARAMETROS
 	define ('QTD_DIAS', '30');
 	define ('DATA_INICIAL', '2017-01-01');
-	define ('QTD_REGISTRO_DIAS', '20');
+	define ('QTD_REGISTRO_DIAS', '200');
 	define ('QTD_TESTES_EXECUTADOS', QTD_DIAS * QTD_REGISTRO_DIAS);
 
 	// funcao para somar data
